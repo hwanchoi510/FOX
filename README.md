@@ -13,4 +13,4 @@ All Assets are free assets acquired from Unity Asset Store:
 &emsp;Casual Game BGM (https://assetstore.unity.com/packages/audio/music/casual-game-bgm-5-135943)  
 
 ## Game Demo
-itch.io: (to be added)
+itch.io: https://hwanchoi510.itch.io/fox

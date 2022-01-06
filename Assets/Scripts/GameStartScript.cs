@@ -11,7 +11,6 @@ public class GameStartScript : MonoBehaviour
             BGMscript.Instance.gameObject.GetComponent<AudioSource>().Stop();
             PlayerPrefs.SetInt("Life", 3);
             StartCoroutine(WaitSound(GameObject.Find("ButtonSound").GetComponent<AudioSource>()));
-            
         }
     }
 

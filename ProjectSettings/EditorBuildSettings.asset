@@ -18,13 +18,13 @@ EditorBuildSettings:
     path: Assets/Scenes/InstructionScene.unity
     guid: 494a3c357469d824280cc464c12c4be1
   - enabled: 1
-    path: Assets/Scenes/BetweenScene1.unity
+    path: Assets/Scenes/BetweenStage1.unity
     guid: 5ca1b9620ee6d6f4da9f0b2eb407ac68
   - enabled: 1
     path: Assets/Scenes/Stage 1.unity
     guid: 86f7dd78eac8bdb4592ffa369673815b
   - enabled: 1
-    path: Assets/Scenes/BetweenScene2.unity
+    path: Assets/Scenes/BetweenStage2.unity
     guid: a77d9cef307e44c4ba9bf36362c1aea4
   - enabled: 1
     path: Assets/Scenes/Stage 2.unity

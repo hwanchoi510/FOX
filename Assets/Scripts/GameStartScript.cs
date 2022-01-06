@@ -8,7 +8,17 @@ public class GameStartScript : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return)){
-            SceneManager.LoadScene("BetweenScene1");
+            BGMscript.Instance.gameObject.GetComponent<AudioSource>().Stop();
+            PlayerPrefs.SetInt("Life", 3);
+            StartCoroutine(WaitSound(GameObject.Find("ButtonSound").GetComponent<AudioSource>()));
+            
         }
+    }
+
+    private IEnumerator WaitSound(AudioSource sound)
+    {
+        sound.Play();
+        yield return new WaitForSeconds(sound.clip.length);
+        SceneManager.LoadScene("BetweenStage1");
     }
 }

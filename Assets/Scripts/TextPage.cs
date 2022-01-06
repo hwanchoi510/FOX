@@ -16,13 +16,20 @@ public class TextPage : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene("Main Menu");
+        { 
+            StartCoroutine(WaitSound(GameObject.Find("ButtonSound").GetComponent<AudioSource>()));
         }
     }
 
     public void ReturnToMenu()
     {
         SceneManager.LoadScene("Main Menu");
+    }
+
+    private IEnumerator WaitSound(AudioSource sound)
+    {
+        sound.Play();
+        yield return new WaitForSeconds(sound.clip.length);
+        ReturnToMenu();
     }
 }

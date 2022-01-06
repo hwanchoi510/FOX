@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float JumpForce;
     [SerializeField] private float ClimbSpeed;
     [SerializeField] private LayerMask PlatformLayer;
+    [SerializeField] private AudioSource FootstepSound;
     
     private Animator animator;
     private Rigidbody2D rb;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        FootstepSound.Pause();
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour
         {
             Animator cherryAnimator = collision.gameObject.GetComponent<Animator>();
             cherryAnimator.SetTrigger("Collected");
+            GameObject.Find("Item").GetComponent<AudioSource>().Play();
             InGameUI.Score += 10000;
         }
         if(collision.gameObject.tag == "Ladder")
@@ -56,7 +59,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             Dead = true;
+            FootstepSound.Pause();
+            GameObject.Find("Death").GetComponent<AudioSource>().Play();
             animator.SetTrigger("Dead");
+            coll.enabled = false;
+            rb.gravityScale = 0;
         }
     }
 
@@ -73,6 +80,7 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Ladder")
@@ -119,6 +127,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Jump") && coll.IsTouchingLayers(PlatformLayer))
             {
                 rb.velocity = new Vector2(rb.velocity.x, JumpForce);
+                GameObject.Find("Jump").GetComponent<AudioSource>().Play();
                 state = State.jumping;
             }
 
@@ -139,6 +148,7 @@ public class PlayerController : MonoBehaviour
     {
         if(Climbing)
         {
+            FootstepSound.Pause();
             state = State.climbing;
             if (Input.GetAxisRaw("Vertical") == 0)
             {
@@ -151,29 +161,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if(rb.velocity.x == 0 && rb.velocity.y == 0)
+            if (rb.velocity.x == 0 && rb.velocity.y == 0)
             {
-                state = State.idle;
-            } else if(rb.velocity.y > 0.5)
-            {
-                state = State.jumping;
-            } else if(rb.velocity.y < -0.5)
-            {
-                state = State.falling;
-            }
-            else if (Mathf.Abs(rb.velocity.x) >= CrawlSpeed)
-            {
-                if(Input.GetAxisRaw("Vertical") < 0)
-                {
-                    state = State.crawling;
-                }
-                else
-                {
-                    state = State.running;
-                }
-            }
-            else
-            {
+                FootstepSound.Pause();
                 if (Input.GetAxisRaw("Vertical") < 0)
                 {
                     state = State.crouching;
@@ -182,6 +172,28 @@ public class PlayerController : MonoBehaviour
                 {
                     state = State.idle;
                 }
+            } else if(rb.velocity.y > 0.5)
+            {
+                FootstepSound.Pause();
+                state = State.jumping;
+            } else if(rb.velocity.y < -0.5)
+            {
+                FootstepSound.Pause();
+                state = State.falling;
+            }
+            else if (Mathf.Abs(rb.velocity.x) >= CrawlSpeed)
+            {
+                
+                if (Input.GetAxisRaw("Vertical") < 0)
+                {
+                    state = State.crawling;
+                    
+                }
+                else
+                {
+                    state = State.running;
+                }
+                FootstepSound.UnPause();
             }
         }
     }

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject PauseMenuUI;
+    [SerializeField] private AudioSource Sound;
     public static bool isPaused;
     void Start()
     {
@@ -16,6 +17,7 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)){
+            Sound.Play();
             isPaused = !isPaused;
         }
 
@@ -46,6 +48,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         isPaused = false;
+        BGMscript.Instance.gameObject.GetComponent<AudioSource>().Play();
         SceneManager.LoadScene("Main Menu");
     }
 

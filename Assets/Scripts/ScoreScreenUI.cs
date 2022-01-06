@@ -21,8 +21,16 @@ public class ScoreScreenUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             PlayerPrefs.SetInt("Life", 3);
-            PlayerPrefs.SetInt("Score", 0);
-            SceneManager.LoadScene("Main Menu");
+            PlayerPrefs.SetInt("Score", 0); 
+            StartCoroutine(WaitSound(GameObject.Find("ButtonSound").GetComponent<AudioSource>()));
+            BGMscript.Instance.gameObject.GetComponent<AudioSource>().Play();
         }
+    }
+
+    private IEnumerator WaitSound(AudioSource sound)
+    {
+        sound.Play();
+        yield return new WaitForSeconds(sound.clip.length);
+        SceneManager.LoadScene("Main Menu");
     }
 }
